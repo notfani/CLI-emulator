@@ -1,7 +1,7 @@
 import unittest
 import os
 import shutil
-from shell_emulator import ShellEmulator
+from ShellEmulator import ShellEmulator
 
 
 class TestShellEmulator(unittest.TestCase):

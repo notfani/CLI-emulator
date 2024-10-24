@@ -1,4 +1,7 @@
-to launch you have to use these command: python emulator.py mycomputer /path/to/filesystem.tar
+to launch you have to use these commands:
+cd C:\Users\Богдан\PycharmProjects\config_conrtol_1
+
+
 
 all commands:
 ls - displays the contents of the current directory
