@@ -4,11 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d1202e34-e916-4df0-81a7-39e3d5737125" name="Changes" comment="ver 0.0.2 fixing the program">
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+    <list default="true" id="d1202e34-e916-4df0-81a7-39e3d5737125" name="Changes" comment="ver 0.0.3">
+      <change afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests_shell_emulator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/CLI emulator.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/CLI emulator.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/readme.txt" beforeDir="false" afterPath="$PROJECT_DIR$/readme.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shell_emulator.py" beforeDir="false" afterPath="$PROJECT_DIR$/shell_emulator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shell_emulator/ShellEmulator.py" beforeDir="false" afterPath="$PROJECT_DIR$/shell_emulator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shell_emulator/readme.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shell_emulator/tests.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,6 +29,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;notfani&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/notfani/CLI-emulator.git&quot;,
+    &quot;accountId&quot;: &quot;0fe69726-2169-4ee1-b113-ccf084e5b571&quot;
+  }
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
@@ -34,20 +50,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Python tests.Python tests in tests.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python.shell_emulator.executor&quot;: &quot;Debug&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Богдан/PycharmProjects/config_conrtol_1&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Python tests.Python tests in tests.py.executor": "Run",
+    "Python.ShellEmulator.executor": "Run",
+    "Python.shell_emulator.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/Богдан/PycharmProjects/config_conrtol_1",
+    "settings.editor.selected.configurable": "preferences.fileTypes"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Богдан\PycharmProjects\config_conrtol_1" />
+      <recent name="C:\Users\Богдан\PycharmProjects\config_conrtol_1\shell_emulator" />
       <recent name="C:\Users\Богдан\PycharmProjects\config_conrtol_1\" />
     </key>
   </component>
@@ -65,7 +84,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/shell_emulator.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\Богдан\PycharmProjects\config_conrtol_1\shell_emulator.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -78,7 +97,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-0509580d9d50-746f403e7f0c-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-241.14494.241" />
+        <option value="bundled-python-sdk-d7ad00fb9fc3-c546a90a8094-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-242.23726.102" />
       </set>
     </attachedChunks>
   </component>
@@ -131,8 +150,19 @@
       <option name="project" value="LOCAL" />
       <updated>1727361857440</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="ver 0.0.3">
+      <option name="closed" value="true" />
+      <created>1729778889286</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1729778889286</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.tar" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -149,6 +179,7 @@
     <MESSAGE value="start version ver 0.0.0" />
     <MESSAGE value="ver 0.0.1 gpt version doesn't work" />
     <MESSAGE value="ver 0.0.2 fixing the program" />
-    <option name="LAST_COMMIT_MESSAGE" value="ver 0.0.2 fixing the program" />
+    <MESSAGE value="ver 0.0.3" />
+    <option name="LAST_COMMIT_MESSAGE" value="ver 0.0.3" />
   </component>
 </project>
