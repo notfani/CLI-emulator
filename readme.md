@@ -1,206 +1,230 @@
-# Shell Emulator (Эмулятор командной строки)
+### **README.md**
 
-**Shell Emulator** — это эмулятор командной строки для работы с виртуальной файловой системой в формате `tar`, работающий в режиме командной строки, с возможностью выполнения стандартных команд файловой системы. Этот эмулятор может быть полезен для демонстрации работы командной оболочки и выполнения тестов на виртуальной файловой системе.
+# Shell Emulator
 
-## Основные возможности
+A shell emulator designed to mimic the behavior of a UNIX-like shell, operating entirely in memory. The emulator uses a TAR archive as a virtual file system, which is loaded into memory without unpacking it onto the disk.
 
-- Запуск из командной строки с указанием имени компьютера и пути к виртуальной файловой системе.
-- Поддержка базовых команд оболочки, таких как `ls`, `cd`, `cp`, `find`, `echo`, и `exit`.
-- Виртуальная файловая система загружается из `tar`-архива.
-- Полное покрытие тестами основных функций.
+This project supports the following shell commands:
+- `ls` — List directory contents.
+- `cd` — Change the current directory.
+- `cp` — Copy files within the virtual file system.
+- `find` — Search for files and directories by name.
+- `echo` — Print messages to the terminal.
+- `exit` — Exit the emulator.
+
+The emulator runs in a Command Line Interface (CLI) and is suitable for learning, experimentation, and testing.
 
 ---
 
-## Установка
+## **Features**
 
-### Требования
+- **Virtual File System**: Works directly with a TAR archive loaded into memory, simulating a real file system.
+- **UNIX-like Shell**: Provides a familiar shell experience with essential commands.
+- **Efficient in Memory**: No disk unpacking; operations are performed entirely in RAM.
+- **Test Coverage**: Includes unit tests for all commands to ensure functionality.
 
-- Python версии 3.6 или выше.
+---
 
-### Установка и запуск
+## **Getting Started**
 
-1. **Склонируйте репозиторий** или скачайте исходный код:
+### **Prerequisites**
 
+- Python 3.7 or higher
+- Basic understanding of the command line
+
+---
+
+### **Installation**
+
+1. Clone the repository:
    ```bash
-   git clone <URL-репозитория>
-   cd <название директории с проектом>
+   git clone https://github.com/your-username/shell_emulator.git
+   cd shell_emulator
    ```
 
-2. **Убедитесь, что у вас установлен Python 3**. Для проверки версии Python выполните:
-
+2. (Optional) Create and activate a virtual environment:
    ```bash
-   python --version
+   python -m venv venv
+   source venv/bin/activate  # On Linux/Mac
+   venv\Scripts\activate     # On Windows
    ```
 
-3. **Создайте тестовую файловую систему в формате `tar`** (или используйте свой tar-архив):
-
-   Например:
+3. Install the dependencies:
    ```bash
-   mkdir -p test_fs/test_dir
-   echo "hello" > test_fs/test_file.txt
-   tar -cvf test_fs.tar test_fs/
+   pip install -r requirements.txt
    ```
 
-4. **Запуск эмулятора**:
+---
 
-   ```bash
-   python shell_emulator.py <hostname> <tar_path>
+### **Usage**
+
+Run the emulator using the following command:
+  ```bash
+  python -m shell_emulator.emulator --computer-name <computer_name> --tar-path <path_to_tar>
    ```
 
-   Где:
-   - `<hostname>` — имя компьютера, отображаемое в приглашении к вводу (например, `my_computer`).
-   - `<tar_path>` — путь к `tar`-архиву с виртуальной файловой системой (например, `test_fs.tar`).
+- **`<computer_name>`**: The name to display in the shell prompt.
+- **`<path_to_tar>`**: Path to the TAR file representing the virtual file system.
 
-Пример запуска:
+Example:
+  ```bash
+  python -m shell_emulator.emulator --computer-name my_pc --tar-path filesystem.tar
+  ```
 
-```bash
-python shell_emulator.py my_computer test_fs.tar
+---
+
+### **Commands**
+
+#### **1. `ls`**
+Lists the contents of the current or specified directory.
+
+- Usage: `ls [path]`
+- Example:
+  ```bash
+  ls           # List contents of the current directory
+  ls folder/   # List contents of the 'folder/' directory
+  ```
+
+#### **2. `cd`**
+Changes the current working directory.
+
+- Usage: `cd [path]`
+- Example:
+  ```bash
+  cd folder/   # Change to the 'folder/' directory
+  cd /         # Change to the root directory
+  ```
+
+#### **3. `cp`**
+Copies a file to a new location.
+
+- Usage: `cp <source> <destination>`
+- Example:
+  ```bash
+  cp file.txt folder/copied_file.txt  # Copy file.txt to folder/copied_file.txt
+  ```
+
+#### **4. `find`**
+Searches for files or directories matching the specified pattern.
+
+- Usage: `find <pattern>`
+- Example:
+  ```bash
+  find file    # Find all files or directories containing 'file' in their name
+  ```
+
+#### **5. `echo`**
+Prints the provided text to the terminal.
+
+- Usage: `echo <text>`
+- Example:
+  ```bash
+  echo Hello, World!  # Prints "Hello, World!"
+  ```
+
+#### **6. `exit`**
+Exits the shell emulator.
+
+- Usage: `exit`
+- Example:
+  ```bash
+  exit  # Ends the emulator session
+  ```
+
+---
+
+### **Testing**
+
+The project includes unit tests to ensure all commands work as expected. To run the tests:
+
+1. Run the following command in the root directory:
+   ```bash
+   python -m unittest discover shell_emulator/tests
+   ```
+
+2. The test suite will automatically discover and run all tests, producing output similar to:
+   ```
+   ....
+   ----------------------------------------------------------------------
+   Ran 4 tests in 0.002s
+
+   OK
+   ```
+
+---
+
+## **Examples**
+
+### **Starting the Emulator**
+  ```bash
+  python -m shell_emulator.emulator --computer-name test_pc --tar-path test_filesystem.tar
+  ```
+
+### **Sample Commands**
+1. List files:
+   ```bash
+   test_pc:/$ ls
+   file.txt
+   folder/
+   ```
+2. Change directory:
+   ```bash
+   test_pc:/$ cd folder
+   test_pc:/folder$ 
+   ```
+3. Copy a file:
+   ```bash
+   test_pc:/folder$ cp ../file.txt copied_file.txt
+   test_pc:/folder$ ls
+   copied_file.txt
+   ```
+4. Find a file:
+   ```bash
+   test_pc:/folder$ find file
+   /file.txt
+   /folder/copied_file.txt
+   ```
+
+---
+
+## **Project Structure**
+
+The project is organized as follows:
+
+```
+shell_emulator/
+├── shell_emulator/
+│   ├── __init__.py            # Package initialization file
+│   ├── emulator.py            # Core emulator logic
+│   └── tests/
+│       ├── __init__.py        # Package initialization for tests
+│       └── test_emulator.py   # Unit tests for emulator functionality
+├── README.md                  # Project documentation
+├── requirements.txt           # Dependencies (empty in this case)
 ```
 
 ---
 
-## Использование
+## **Future Enhancements**
 
-При запуске эмулятора, в консоли появится приглашение вида `<hostname>:<current_dir>$`, где:
-- `<hostname>` — имя компьютера, которое вы указали при запуске.
-- `<current_dir>` — текущая директория в виртуальной файловой системе.
-
-Вы можете вводить команды для работы с файловой системой, как в стандартной командной строке UNIX.
-
-### Поддерживаемые команды
-
-1. **`ls`** — отображает список файлов и директорий в текущей директории.
-
-   **Пример**:
-   ```bash
-   my_computer:/test_dir$ ls
-   file1.txt  file2.txt  subdir
-   ```
-
-2. **`cd <path>`** — изменяет текущую директорию на указанную. Используйте `cd /` для перехода в корневую директорию.
-
-   **Пример**:
-   ```bash
-   my_computer:/test_dir$ cd subdir
-   my_computer:/test_dir/subdir$ ls
-   subfile.txt
-   ```
-
-3. **`cp <src> <dest>`** — копирует файл из `src` в `dest`. `src` — путь к исходному файлу, а `dest` — путь к файлу назначения (в той же директории).
-
-   **Пример**:
-   ```bash
-   my_computer:/test_dir$ cp file1.txt file1_copy.txt
-   my_computer:/test_dir$ ls
-   file1.txt  file1_copy.txt  file2.txt  subdir
-   ```
-
-4. **`find <filename>`** — ищет файл с именем `<filename>` в текущей директории и всех подкаталогах, выводя путь к найденному файлу.
-
-   **Пример**:
-   ```bash
-   my_computer:/test_dir$ find file1.txt
-   /test_dir/file1.txt
-   ```
-
-5. **`echo <text>`** — выводит на экран текст, указанный после команды.
-
-   **Пример**:
-   ```bash
-   my_computer:/test_dir$ echo Hello, world!
-   Hello, world!
-   ```
-
-6. **`exit`** — завершает сеанс эмулятора и возвращает в реальную командную строку.
+- Support for additional commands (`mv`, `rm`, etc.).
+- Enhanced `find` functionality with regex support.
+- Improved error handling and user feedback.
+- Interactive shell scripting support.
 
 ---
 
-## Тестирование
+## **Contributing**
 
-Тесты разработаны с использованием библиотеки `unittest`, которая встроена в Python. Тесты проверяют корректность работы всех поддерживаемых команд, а также инициализацию файловой системы из tar-архива.
+Contributions are welcome! To contribute:
 
-### Запуск тестов
-
-1. Убедитесь, что у вас есть тестовая файловая система в формате `tar`, созданная для тестов (например, `test_fs.tar`).
-   
-2. Запустите тесты с помощью следующей команды:
-
-   ```bash
-   python -m unittest test_shell_emulator.py
-   ```
-
-### Описание тестов
-
-Тесты включают:
-
-- **Тест команды `ls`**: проверка, что команда `ls` корректно отображает содержимое директории.
-- **Тест команды `cd`**: проверка возможности перехода по директориям.
-- **Тест команды `cp`**: проверка корректного копирования файла в той же директории.
-- **Тест команды `find`**: проверка работы поиска файла по имени.
-- **Тест команды `echo`**: проверка вывода текста на экран.
+1. Fork the repository.
+2. Create a feature branch.
+3. Commit your changes and submit a pull request.
 
 ---
 
-## Структура проекта
+## **License**
 
+This project is licensed under the MIT License. See the LICENSE file for details.
 ```
-├── shell_emulator.py          # Основной скрипт эмулятора
-├── test_shell_emulator.py      # Тесты для эмулятора
-├── test_fs.tar                 # Пример виртуальной файловой системы в формате tar
-└── README.md                   # Документация проекта
-```
-
-## Примеры использования
-
-### Пример 1: Открытие файловой системы и работа с файлами
-
-```bash
-$ python shell_emulator.py my_computer test_fs.tar
-my_computer:/ $ ls
-test_dir  test_file.txt
-my_computer:/ $ cd test_dir
-my_computer:/test_dir$ ls
-# Ожидаемый вывод: содержимое test_dir
-```
-
-### Пример 2: Копирование файлов и использование echo
-
-```bash
-$ python shell_emulator.py my_computer test_fs.tar
-my_computer:/ $ cp test_file.txt test_file_copy.txt
-my_computer:/ $ ls
-# Ожидаемый вывод: test_file.txt test_file_copy.txt
-my_computer:/ $ echo "This is a test"
-This is a test
-```
-
-### Пример 3: Поиск файлов с `find`
-
-```bash
-$ python shell_emulator.py my_computer test_fs.tar
-my_computer:/ $ find test_file.txt
-# Ожидаемый вывод: путь к test_file.txt
-```
-
----
-
-## Возможные ошибки и пути их устранения
-
-- **Ошибка: `<имя файла>`: Файл не найден**  
-  Проверьте, существует ли указанный файл в текущей директории.
-
-- **Ошибка: `<имя директории>`: Нет такой директории**  
-  Убедитесь, что путь к директории введен правильно.
-
-- **Ошибка при загрузке файловой системы**  
-  Проверьте, что указанный tar-файл существует и доступен для чтения.
-
----
-
-## Авторы
-
-Этот эмулятор командной строки разработан в рамках учебного задания для демонстрации работы командных оболочек и виртуальных файловых систем.
-
---- 
-
-Скопируйте данный текст в ваш `README.md` файл, и он будет содержать всю необходимую информацию для пользователей и разработчиков проекта.

@@ -1,96 +1,112 @@
 import os
+import sys
 import tarfile
-import shutil
-import argparse
 
 class ShellEmulator:
-    def __init__(self, hostname, tar_path):
-        self.hostname = hostname
-        self.current_dir = '/'
-        self.load_filesystem(tar_path)
+    def __init__(self, computer_name, tar_path):
+        self.computer_name = computer_name
+        self.tar_path = tar_path
+        self.current_path = '/'
+        self.fs = {}  # Virtual file system (dictionary)
+        self.load_tar()
 
-    def load_filesystem(self, tar_path):
-        """Загружает виртуальную файловую систему из tar-файла."""
-        with tarfile.open(tar_path, 'r') as tar:
-            tar.extractall('virtual_fs')
-        self.fs_root = os.path.abspath('virtual_fs')
+    def load_tar(self):
+        """Load the TAR archive into memory."""
+        with tarfile.open(self.tar_path, "r") as tar:
+            for member in tar.getmembers():
+                self.fs[member.name.rstrip("/")] = {
+                    "is_dir": member.isdir(),
+                    "content": tar.extractfile(member).read() if member.isfile() else None,
+                }
 
-    def ls(self):
-        """Список файлов и директорий в текущей директории."""
-        path = os.path.join(self.fs_root, self.current_dir.lstrip('/'))
-        print('\n'.join(os.listdir(path)))
+    def run(self):
+        """Main emulator loop."""
+        try:
+            while True:
+                cmd = input(f"{self.computer_name}:{self.current_path}$ ").strip()
+                if cmd:
+                    self.execute_command(cmd)
+        except KeyboardInterrupt:
+            print("\nExiting shell.")
 
-    def cd(self, path):
-        """Переход в другую директорию."""
-        if path == '/':
-            self.current_dir = '/'
+    def execute_command(self, cmd):
+        """Parse and execute a shell command."""
+        parts = cmd.split()
+        command = parts[0]
+        args = parts[1:]
+
+        if command == "ls":
+            self.ls(args)
+        elif command == "cd":
+            self.cd(args)
+        elif command == "cp":
+            self.cp(args)
+        elif command == "find":
+            self.find(args)
+        elif command == "echo":
+            self.echo(args)
+        elif command == "exit":
+            print("Bye!")
+            sys.exit(0)
         else:
-            new_path = os.path.normpath(os.path.join(self.current_dir, path))
-            abs_path = os.path.join(self.fs_root, new_path.lstrip('/'))
-            if os.path.isdir(abs_path):
-                self.current_dir = new_path
-            else:
-                print(f"{path}: Нет такой директории")
+            print(f"Unknown command: {command}")
 
-    def cp(self, src, dest):
-        """Копирование файлов."""
-        src_path = os.path.join(self.fs_root, self.current_dir.lstrip('/'), src)
-        dest_path = os.path.join(self.fs_root, self.current_dir.lstrip('/'), dest)
-        if os.path.isfile(src_path):
-            shutil.copy(src_path, dest_path)
+    def ls(self, args):
+        """List directory contents."""
+        path = self.resolve_path(args[0] if args else self.current_path)
+        if path not in self.fs or not self.fs[path]["is_dir"]:
+            print(f"ls: cannot access '{path}': No such file or directory")
+            return
+        items = [p.split("/")[-1] for p in self.fs if p.startswith(path + "/")]
+        print("\n".join(sorted(set(items))))
+
+    def cd(self, args):
+        """Change directory."""
+        if not args:
+            self.current_path = "/"
+            return
+        path = self.resolve_path(args[0])
+        if path in self.fs and self.fs[path]["is_dir"]:
+            self.current_path = path
         else:
-            print(f"{src}: Файл не найден")
+            print(f"cd: no such file or directory: {path}")
 
-    def find(self, filename):
-        """Поиск файлов по имени."""
-        for root, dirs, files in os.walk(os.path.join(self.fs_root, self.current_dir.lstrip('/'))):
-            if filename in files:
-                print(os.path.join(root, filename))
+    def cp(self, args):
+        """Copy files."""
+        if len(args) < 2:
+            print("cp: missing file operand")
+            return
+        src = self.resolve_path(args[0])
+        dest = self.resolve_path(args[1])
+        if src in self.fs and not self.fs[src]["is_dir"]:
+            self.fs[dest] = {"is_dir": False, "content": self.fs[src]["content"]}
+        else:
+            print(f"cp: cannot stat '{src}': No such file or directory")
 
-    def echo(self, text):
-        """Вывод текста."""
-        print(text)
+    def find(self, args):
+        """Find files and directories."""
+        query = args[0] if args else ""
+        results = [p for p in self.fs if query in p]
+        print("\n".join(results))
 
-    def prompt(self):
-        """Вывод приглашения к вводу."""
-        return f"{self.hostname}:{self.current_dir}$ "
+    def echo(self, args):
+        """Echo text."""
+        print(" ".join(args))
 
-    def start(self):
-        """Основной цикл обработки команд."""
-        while True:
-            command = input(self.prompt()).strip().split()
-            if not command:
-                continue
-            cmd, *args = command
-            if cmd == 'ls':
-                self.ls()
-            elif cmd == 'cd':
-                if args:
-                    self.cd(args[0])
-                else:
-                    print("cd: Ожидается аргумент")
-            elif cmd == 'cp':
-                if len(args) < 2:
-                    print("cp: Ожидаются исходный и целевой файлы")
-                else:
-                    self.cp(args[0], args[1])
-            elif cmd == 'find':
-                if args:
-                    self.find(args[0])
-                else:
-                    print("find: Ожидается имя файла")
-            elif cmd == 'echo':
-                print(' '.join(args))
-            elif cmd == 'exit':
-                break
-            else:
-                print(f"{cmd}: Команда не найдена")
+    def resolve_path(self, path):
+        """Resolve relative paths to absolute paths."""
+        if path.startswith("/"):
+            return path.rstrip("/")
+        return f"{self.current_path.rstrip('/')}/{path}".rstrip("/")
+
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Эмулятор shell с виртуальной файловой системой.")
-    parser.add_argument("hostname", help="Имя компьютера для приглашения")
-    parser.add_argument("tar_path", help="Путь к tar-архиву с файловой системой")
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Shell Emulator")
+    parser.add_argument("--computer-name", required=True, help="Computer name for shell prompt")
+    parser.add_argument("--tar-path", required=True, help="Path to the virtual filesystem tar file")
     args = parser.parse_args()
 
-    shell = ShellEmulator(args.hostname, args.tar_path)
-    shell.start()
+    emulator = ShellEmulator(args.computer_name, args.tar_path)
+    emulator.run()
